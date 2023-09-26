@@ -3,94 +3,74 @@ package HOME01;
 import java.util.Iterator;
 
 public class Task2 {
-	public static final char encryptChar(char c, int n ) {
-		char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F',
+		public static final char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
 				'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-		char res = ' ';
-		for (int i = 0; i < ALPHABET.length; i++) {
-			if (ALPHABET[i] == c ) {
-				res = ALPHABET[(i+n)%26];
-				
-			}
+		private int n;
+		public Task2(int shiftSteps) {
+			this.n = shiftSteps;
 		}
-		return res;
-	}
-	public static char decryptChar(char c, int n) {
-		char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F',
-				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-				'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-		char res = ' ';
-		for (int i = 0; i < ALPHABET.length; i++) {
-			if (ALPHABET[i] == c) {
-			res = ALPHABET[(i-n)%26];
-			}
-		}
-		return res;
-	}
-	
-	public static String decryptString(String k, int n) {
-		char m =  ' ' ;
-		char[] ALPHABET = new char[26];
-		char[] alphabet = new char[26];
-		char[] number	= new char[10];
-		
-		
-		for (int i = 0; i < ALPHABET.length; i++) {
-			ALPHABET[i] = (char) ('A'+ i);
-			alphabet[i] = (char) ('a'+ i);
-			
-		}	
-		for (int i = 0; i < number.length; i++) {
-			number[i] = (char) ('0'+ i);
-		}
-		String result = "";
-		for (int i = 0; i < k.length(); i++) {
-			m=k.charAt(i);
-			if (m >= 'a' && m <= 'z') {
-				for (int j = 0; j < alphabet.length; j++) {
-					if (alphabet[j] == m ) {
-						result += alphabet[(j-n)%26];
-					}
+		public char encryptChar(char c) {
+			char res = ' ';
+			for (int i = 0; i < ALPHABET.length; i++) {
+				if (c == ALPHABET[i]) {
+					res = ALPHABET[(i+n)%26];
 				}
-			}else if (m >= 'A' && m <= 'Z') {
+			}
+			return res;
+		}
+		public String encrypt(String input) {
+			String res= "";
+			char ch = ' ';
+			for (int i = 0; i < input.length(); i++) {
+				ch= input.charAt(i);
 				for (int j = 0; j < ALPHABET.length; j++) {
-					if (ALPHABET[j] == m ) {
-						result += ALPHABET[(j-n)%26];
+					if (ch == ALPHABET[j]) {
+						res += encryptChar(ch);
+					}else if (ch == ' ') {
+						res += " ";
 					}
 				}
-			}else if (m >= '0' && m <= '9') {
-				for (int j = 0; j < number.length; j++) {
-					if (number[j] == m) {
-						result += number[(j-n)%10];
-					}
-				}
-			}if (m == ' ') {
-				result+= " ";
 			}
+			return res;
+		}
+		public char decryptChar(char c) {
+			char res = ' ';
+			for (int i = 0; i < ALPHABET.length; i++) {
+				if (c == ALPHABET[i]) {
+					res = ALPHABET[(i-n+26)%26];
+				}
+			}
+			return res;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		return result;
-		
+		public String decrypt(String input) {
+			String res = "";
+			char ch = ' ';
+			for (int i = 0; i < input.length(); i++) {
+				ch = input.charAt(i);
+				for (int j = 0; j < ALPHABET.length; j++) {
+					if (ch == ALPHABET[j]) {
+						res += decryptChar(ch);
+					}else if (ch == ' ') {
+						res += " ";
+					}
+				}
+			}
+			return res;
+		}
 			
-	}
 		
-	
-	
-	
-	public static void main(String[] args) {
-		char c = 'E';
-		char c1 = 'K';
-		String h = "TIEN NGU 123";
-		System.out.println(decryptChar(c1, 3));
-		System.out.println(decryptString(h, 3));
-	}
+		
+		public static void main(String[] args) {
+			int n =3 ;
+			char t = 'K';
+			String s = "TUAN DEP TRAI";
+			Task2 t1 = new Task2(n);
+			Task2 t2 = new Task2(n);
+			System.out.println(t1.encryptChar(t));
+			System.out.println(t2.encrypt(s));
+			System.out.println(t1.decryptChar(t));
+			System.out.println(t2.decrypt(s));
+		}
 }
